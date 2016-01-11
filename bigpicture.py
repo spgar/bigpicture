@@ -1,17 +1,21 @@
 # bbigpicture crawls a subreddit and pulls out images/videos with large file sizes
 
 import praw
-import urllib2
 from operator import itemgetter
 from sys import stdout
 
-subredditsToProcess = 'funny'
+try:
+    from urllib.request import urlopen
+except:
+    from urllib2 import urlopen
+
+subredditToProcess = 'funny'
 submissionsToCheck = 50
 topImageCount = 5
 
 def getURLType(url):
     try:
-        content = urllib2.urlopen(url)
+        content = urlopen(url)
     except:
         return ''
     return content.info().maintype
@@ -44,7 +48,7 @@ def processURL(url):
     return '';
 
 def getFileSize(url):
-    content = urllib2.urlopen(url)
+    content = urlopen(url)
     try:
         fileSize = int(content.headers['content-length'])
     except:
@@ -53,13 +57,13 @@ def getFileSize(url):
         fileSize = -1
     return fileSize
 
-print 'Connecting to reddit (/r/{0})'.format(subredditToProcess)
+print('Connecting to reddit (/r/{0})'.format(subredditToProcess))
 r = praw.Reddit('SizeSearch 0.1')
 subreddit = r.get_subreddit(subredditToProcess)
 
 results = []
 count = 0
-print 'Processing {0} latest submissions'.format(submissionsToCheck)
+print('Processing {0} latest submissions'.format(submissionsToCheck))
 for submission in subreddit.get_new(limit=submissionsToCheck):
     url = submission.url
     try:
@@ -77,9 +81,9 @@ for submission in subreddit.get_new(limit=submissionsToCheck):
 
 results = sorted(results, key=itemgetter(1), reverse=True)
 
-print ''
-print 'Successfully processed {0} images.'.format(len(results))
-print ''
-print 'Top {0} largest images:'.format(min(topImageCount, len(results)))
+print('')
+print('Successfully processed {0} images.'.format(len(results)))
+print('')
+print('Top {0} largest images:'.format(min(topImageCount, len(results))))
 for i in xrange(0, min(topImageCount, len(results))):
-    print results[i][0]
+    print(results[i][0])
