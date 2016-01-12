@@ -58,7 +58,7 @@ def getFileSize(url):
     return fileSize
 
 print('Connecting to reddit (/r/{0})'.format(subredditToProcess))
-r = praw.Reddit('SizeSearch 0.1')
+r = praw.Reddit('BigPicture 0.1')
 subreddit = r.get_subreddit(subredditToProcess)
 
 results = []
