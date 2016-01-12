@@ -85,5 +85,5 @@ print('')
 print('Successfully processed {0} images.'.format(len(results)))
 print('')
 print('Top {0} largest images:'.format(min(topImageCount, len(results))))
-for i in xrange(0, min(topImageCount, len(results))):
+for i in range(0, min(topImageCount, len(results))):
     print(results[i][0])
