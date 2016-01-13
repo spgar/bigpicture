@@ -10,7 +10,7 @@ except:
     from urllib2 import urlopen
 
 subredditToProcess = 'funny'
-submissionsToCheck = 50
+submissionsToCheck = 100
 topImageCount = 5
 
 def getURLType(url):
@@ -18,7 +18,7 @@ def getURLType(url):
         content = urlopen(url)
     except:
         return ''
-    return content.info().maintype
+    return content.info()['Content-Type']
 
 def isImageOrVideoType(type):
     return ('image' in type) or ('video' in type)
@@ -82,7 +82,7 @@ for submission in subreddit.get_new(limit=submissionsToCheck):
 results = sorted(results, key=itemgetter(1), reverse=True)
 
 print('')
-print('Successfully processed {0} images.'.format(len(results)))
+print('Processed {0} images.'.format(len(results)))
 print('')
 print('Top {0} largest images:'.format(min(topImageCount, len(results))))
 for i in range(0, min(topImageCount, len(results))):
